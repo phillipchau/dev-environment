@@ -2,7 +2,7 @@ Requirements
 --------------------------------------------------------------------------------
 1. Install Vagrant <https://www.vagrantup.com/downloads.html>
 
-1. Install VirtualBox <https://www.virtualbox.org/wiki/Downloads>
+1. Install VirtualBox and VirtualBox Extension Pack <https://www.virtualbox.org/wiki/Downloads>
 
 1. Add `vagrant` and `VBoxManage` to your PATH.
     - This is most likely already done by the installation binaries.
@@ -16,27 +16,14 @@ Requirements
 
     - You may need to log out and back in for the path modifications to take
       effect.
-
-1. On my Jessie installation I had to apply the following patch before I could
-   successfully shut down and reboot the VM.
-
-        --- /opt/vagrant/embedded/gems/gems/vagrant-1.7.4/plugins/guests/debian8/cap/halt.rb    2015-07-17 13:15:13.000000000 -0700
-        +++ new_halt.rb 2015-11-18 20:11:29.003055639 -0800
-        @@ -4,7 +4,7 @@
-               class Halt
-                 def self.halt(machine)
-                   begin
-        -            machine.communicate.sudo("shutdown -h -H")
-        +            machine.communicate.sudo("systemctl poweroff")
-                   rescue IOError
-                     # Do nothing, because it probably means the machine shut down
-                     # and SSH connection was lost.
+      
+1. Install Bazel according to your operating system <https://docs.bazel.build/versions/master/install.html>
 
 Usage
 --------------------------------------------------------------------------------
-1. Check this folder out on your computer somewhere.
+1. Clone this repository onto your computer somewhere.
 
-        svn co https://robotics.mvla.net/svn/frc971/2016/trunk/src/vagrant_dev_vm
+        git clone https://github.com/valkyrierobotics/dev-environment.git
 
 1. Go into the directory and build the VM.
 
@@ -57,8 +44,6 @@ Usage
 
 1. Download the code and build it.
 
-        git clone https://USERNAME@robotics.mvla.net/gerrit/971-Robot-Code
-        cd 971-Robot-Code
-        bazel build //y2016/... -- $(cat NO_BUILD_AMD64)
-
-   where USERNAME is the same username you use to log into SVN.
+        git clone https://github.com/valkyrierobotics/mass.git
+        cd mass
+        bazel build //y2017/... -- $(cat NO_BUILD_AMD64)
